@@ -73,6 +73,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
 }
 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'updateAttendance') {
+    $course = $_POST['course'];
+    $unit = $_POST['unit'];
+    $venue = $_POST['venue'];
+
+    // Update attendance to 'Present' for the selected course, unit, and venue
+    $sql = "UPDATE tblattendance 
+            SET attendanceStatus = 'Present' 
+            WHERE course = '$course' AND unit = '$unit' AND venue = '$venue' AND attendanceStatus = 'Absent'";
+
+    if ($conn->query($sql) === TRUE) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'message' => $conn->error]);
+    }
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -137,10 +156,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <button id="endAttendance" class="add" >END Attendance Taking</button>
     </div>
    
-    <div class="video-container" style="display:none;">
-        <video  id="video" width="600" height="450" autoplay></video>
-        <canvas id="overlay"></canvas>
+    <div class="video-container" style="display: none;">
+    <video id="video" width="600" height="450" autoplay></video>
+    <canvas id="overlay" width="600" height="450"></canvas>
     </div>
+
 
     <div class="table-container">
 
@@ -154,9 +174,157 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </div>
 </section>
-    <script>
+<script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+<script defer src="https://unpkg.com/face-api.js"></script>
 
- </script>
+<script>
+document.getElementById("startButton").addEventListener("click", async () => {
+    // Display video container
+    document.querySelector(".video-container").style.display = "block";
+
+    // Load face-api models
+    await Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+        faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+        faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+        // faceapi.nets.faceExpressionNet.loadFromUri('/models')
+    ]);
+
+    // Start the video stream
+    const video = document.getElementById("video");
+    navigator.mediaDevices
+        .getUserMedia({ video: {} })
+        .then((stream) => {
+            video.srcObject = stream;
+        })
+        .catch((err) => console.error("Error accessing webcam: ", err));
+
+    // Event listener for video playing
+    video.addEventListener("play", () => {
+        const canvas = document.getElementById("overlay");
+        const displaySize = { width: video.width, height: video.height };
+        faceapi.matchDimensions(canvas, displaySize);
+
+        // Run detection on each frame
+        setInterval(async () => {
+            const detections = await faceapi.detectAllFaces(
+                video,
+                new faceapi.TinyFaceDetectorOptions()
+            ).withFaceLandmarks();
+
+            const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+            // Clear previous drawings
+            canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw bounding boxes
+            faceapi.draw.drawDetections(canvas, resizedDetections);
+
+            // Optional: Draw landmarks and expressions
+            faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+            
+        }, 100);
+    });
+});
+document.getElementById("endButton").addEventListener("click", () => {
+    const video = document.getElementById("video");
+    const stream = video.srcObject;
+
+    if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop()); // Stop all tracks
+    }
+
+    // Hide video container
+    document.querySelector(".video-container").style.display = "none";
+});
+document.getElementById("endAttendance").addEventListener("click", async () => {
+    // Send an AJAX request to mark all attendance as 'present'
+    const course = document.getElementById("courseSelect").value;
+    const unit = document.getElementById("unitSelect").value;
+    const venue = document.getElementById("venueSelect").value;
+
+    if (!course || !unit || !venue) {
+        alert("Please select all required fields.");
+        return;
+    }
+
+    // Send the AJAX request to the server
+    const response = await fetch('updateAttendance.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ course, unit, venue })
+    });
+
+    const data = await response.json();
+    if (data.success) {
+        alert("Attendance Marked.");
+         window.location.href = 'viewattendance.php';
+    } else {
+        alert("Error updating attendance.");
+    }
+});
+
+document.getElementById("endAttendance").addEventListener("click", async () => {
+    // Get the selected values
+    const course = document.getElementById("courseSelect").value;
+    const unit = document.getElementById("unitSelect").value;
+    const venue = document.getElementById("venueSelect").value;
+
+    if (!course || !unit || !venue) {
+        return;
+    }
+
+    // Send the AJAX request to the server
+    const response = await fetch('takeattendence.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ course, unit, venue, action: 'updateAttendance' })
+    });
+
+    const data = await response.json();
+    if (data.success) {
+        alert("Attendance Marked.");
+        // Optionally, reload the table to reflect the new status
+        updateTable(); 
+
+        setTimeout(() => {
+            window.location.href = 'viewattendance.php';
+        }, 10000);// This will reload the table with the updated attendance
+
+    } else {
+        alert("Error updating attendance.");
+    }
+});
+
+
+document.getElementById("endAttendance").addEventListener("click", async () => {
+    // Get the selected values
+    const course = document.getElementById("courseSelect").value;
+    const unit = document.getElementById("unitSelect").value;
+    const venue = document.getElementById("venueSelect").value;
+
+    if (!course || !unit || !venue) {
+        
+        return;
+    }
+
+    // Send the AJAX request to the server
+    const response = await fetch('takeattendence.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ course, unit, venue, action: 'updateAttendance' })
+    });
+});
+
+
+</script>
    
 <script  src="script.js"></script>
 <script  src="../admin/javascript/main.js"></script>

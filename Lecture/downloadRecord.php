@@ -154,30 +154,34 @@ if (!empty($unitCode)) {
                 </tr>
             </thead>
             <tbody>
-                <?php
-                foreach ($studentRows as $row) {
-                    echo "<tr>";
-                    echo "<td>" . $row["studentRegistrationNumber"] . "</td>";
-                    $distinctDatesResult = mysqli_query($conn, $distinctDatesQuery);
-                    if ($distinctDatesResult) {
-                        while ($dateRow = mysqli_fetch_assoc($distinctDatesResult)) {
-                            $date = $dateRow['dateMarked'];
-                            $attendanceQuery = "SELECT attendanceStatus FROM tblattendance WHERE studentRegistrationNumber = '" . $row['studentRegistrationNumber'] . "' AND dateMarked = '$date'";
-                            $attendanceResult = mysqli_query($conn, $attendanceQuery);
-                            
-                            if ($attendanceResult && mysqli_num_rows($attendanceResult) > 0) {
-                                $attendanceData = mysqli_fetch_assoc($attendanceResult);
-                                echo "<td>" . $attendanceData['attendanceStatus'] . "</td>";
-                            } else {
-                                echo "<td>Absent</td>";
-                            }
-                        }
-                    }
-                    
-                    echo "</tr>";
+    <?php
+    $rowCount = 0; // Counter to limit rows
+    foreach ($studentRows as $row) {
+        if ($rowCount >= 4) break; // Stop after 4 rows
+        echo "<tr>";
+        echo "<td>" . $row["studentRegistrationNumber"] . "</td>";
+        
+        $distinctDatesResult = mysqli_query($conn, $distinctDatesQuery);
+        if ($distinctDatesResult) {
+            while ($dateRow = mysqli_fetch_assoc($distinctDatesResult)) {
+                $date = $dateRow['dateMarked'];
+                $attendanceQuery = "SELECT attendanceStatus FROM tblattendance WHERE studentRegistrationNumber = '" . $row['studentRegistrationNumber'] . "' AND dateMarked = '$date'";
+                $attendanceResult = mysqli_query($conn, $attendanceQuery);
+                
+                if ($attendanceResult && mysqli_num_rows($attendanceResult) > 0) {
+                    $attendanceData = mysqli_fetch_assoc($attendanceResult);
+                    echo "<td>" . $attendanceData['attendanceStatus'] . "</td>";
+                } else {
+                    echo "<td>Absent</td>";
                 }
-                ?>
-            </tbody>
+            }
+        }
+        echo "</tr>";
+        $rowCount++; // Increment the counter
+    }
+    ?>
+</tbody>
+
         </table>
         
     </div>
