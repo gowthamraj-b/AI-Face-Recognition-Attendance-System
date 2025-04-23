@@ -1,1 +1,1 @@
-﻿# Face-Recognition-Attendance-System
+﻿# AutoFace Mark AI - Face-Recognition-AI-Attendance-System
