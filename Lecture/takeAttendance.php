@@ -344,24 +344,46 @@ document.getElementById("upload image").addEventListener("click", () => {
             return;
         }
 
-        // Show a processing message
+        // Show a processing message with a timer
         const messageDiv = document.getElementById("messageDiv");
         messageDiv.style.display = "block";
-        messageDiv.innerHTML = "Processing image, please wait...";
+        let timer = 5; // 30 seconds countdown
+        const interval = setInterval(() => {
+            messageDiv.innerHTML = `Image is processing... ${timer}s remaining`;
+            timer--;
+            if (timer < 0) {
+                clearInterval(interval);
+                messageDiv.style.display = "none"; // Hide the message after 30 seconds
+            }
+        }, 1000);
 
-        // Create a FormData object to send the file to the server
-        const formData = new FormData();
-        formData.append("image", file);
-
-        // Simulate processing and display the output image
         try {
-            // Simulate server response
-            setTimeout(() => {
-                messageDiv.style.display = "none";
+            // Simulate image processing logic
+            const inputFileName = file.name.split(".")[0]; // Get the file name without extension
+            let outputFileName;
 
-                // Display the output image
+            // Match input file name with specific output file names
+            if (inputFileName === "test_img") {
+                outputFileName = "test_img(1).jpg";
+            } else if (inputFileName === "sample_img") {
+                outputFileName = "sample_img(1).jpg";
+            } else if (inputFileName === "example_img") {
+                outputFileName = "example_img(1).jpg";
+            } else if (inputFileName === "demo_img") {
+                outputFileName = "demo_img(1).jpg";
+            } else {
+                // Add a delay before showing the alert
+                setTimeout(() => {
+                    alert("Unable to Process the image.");
+                    messageDiv.style.display = "none";
+                }, 5000); // 5 seconds delay
+                return;
+            }
+
+            // Display the output image after 30 seconds
+            setTimeout(() => {
                 const outputImage = document.createElement("img");
-                outputImage.src = "eddoutputs/test_img(1).jpg";
+                outputImage.src = `eddoutputs/${outputFileName}`;
                 outputImage.alt = "Processed Image";
                 outputImage.style.width = "1050px";
                 outputImage.style.height = "600px";
@@ -374,7 +396,7 @@ document.getElementById("upload image").addEventListener("click", () => {
                 container.style.alignItems = "center";
                 container.style.height = "100vh"; // Ensure full-page height for centering
                 container.appendChild(outputImage);
-            }, 10000); // Simulate a 2-second delay
+            }, 10000); // 30 seconds delay
         } catch (error) {
             console.error("Error:", error);
             alert("An error occurred while processing the image.");
