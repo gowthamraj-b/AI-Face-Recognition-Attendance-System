@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2024 at 11:45 AM
+-- Generation Time: Nov 30, 2024 at 10:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,11 +62,30 @@ CREATE TABLE `tblattendance` (
 --
 
 INSERT INTO `tblattendance` (`attendanceID`, `studentRegistrationNumber`, `course`, `attendanceStatus`, `dateMarked`, `unit`) VALUES
-(478, 'CIT-222-003-2020', 'BCT', 'Absent', '2024-05-02', 'BCT 2411'),
-(479, 'CIT-222-002-2020', 'BCT', 'Absent', '2024-05-02', 'BCT 2411'),
-(480, 'CIT-222-001-2020', 'BCT', 'Absent', '2024-05-02', 'BCT 2411'),
-(481, 'CIT-222-005-2020', 'BCT', 'present', '2024-05-02', 'BCT 2411'),
-(482, 'CIT-222-004-2020', 'BCT', 'Absent', '2024-05-02', 'BCT 2411');
+(554, '21AI011', 'AI', 'Present', '2024-11-14', 'DS'),
+(555, '21AI012', 'AI', 'Absent', '2024-11-14', 'DS'),
+(556, '21AI014', 'AI', 'Absent', '2024-11-14', 'DS'),
+(557, '21AI016', 'AI', 'Absent', '2024-11-14', 'DS'),
+(745, '21AI011', 'AI', 'present', '2024-11-21', 'AI'),
+(746, '21AI012', 'AI', 'present', '2024-11-21', 'AI'),
+(747, '21AI014', 'AI', 'present', '2024-11-21', 'AI'),
+(748, '21AI016', 'AI', 'present', '2024-11-21', 'AI'),
+(933, '21AI011', 'AI', 'Absent', '2024-11-29', 'DL'),
+(934, '21AI012', 'AI', 'Absent', '2024-11-29', 'DL'),
+(935, '21AI014', 'AI', 'Absent', '2024-11-29', 'DL'),
+(936, '21AI016', 'AI', 'Absent', '2024-11-29', 'DL'),
+(961, '21AI011', 'AI', 'Absent', '2024-11-29', 'AI'),
+(962, '21AI012', 'AI', 'Absent', '2024-11-29', 'AI'),
+(963, '21AI014', 'AI', 'Absent', '2024-11-29', 'AI'),
+(964, '21AI016', 'AI', 'Absent', '2024-11-29', 'AI'),
+(965, '21AI011', 'AI', 'Absent', '2024-11-29', 'DS'),
+(966, '21AI012', 'AI', 'Absent', '2024-11-29', 'DS'),
+(967, '21AI014', 'AI', 'Absent', '2024-11-29', 'DS'),
+(968, '21AI016', 'AI', 'Absent', '2024-11-29', 'DS'),
+(969, '21AI011', 'AI', 'Present', '2024-11-30', 'AI'),
+(970, '21AI012', 'AI', 'Present', '2024-11-30', 'AI'),
+(971, '21AI014', 'AI', 'Present', '2024-11-30', 'AI'),
+(972, '21AI016', 'AI', 'Present', '2024-11-30', 'AI');
 
 -- --------------------------------------------------------
 
@@ -87,15 +106,7 @@ CREATE TABLE `tblcourse` (
 --
 
 INSERT INTO `tblcourse` (`ID`, `name`, `facultyID`, `dateCreated`, `courseCode`) VALUES
-(10, 'Computer Technology', 8, '2024-04-07', 'BCT'),
-(11, 'Software Engineering', 8, '2024-04-07', 'BSE'),
-(12, 'Computer Science', 8, '2024-04-07', 'BCS'),
-(13, 'Information Technology', 8, '2024-04-07', 'BIT'),
-(14, 'Mass Communication', 11, '2024-04-07', 'BMC'),
-(15, 'Political Science', 9, '2024-04-07', 'BPS'),
-(16, 'Analytical chemistry', 9, '2024-04-09', 'APA'),
-(17, 'BCOM', 13, '2024-04-26', 'BCOM'),
-(18, 'Mathematic for Science', 14, '2024-05-02', 'SMA 2103');
+(1, 'Artificial Intelligence', 1, '2024-10-16', 'AI');
 
 -- --------------------------------------------------------
 
@@ -115,13 +126,12 @@ CREATE TABLE `tblfaculty` (
 --
 
 INSERT INTO `tblfaculty` (`Id`, `facultyName`, `facultyCode`, `dateRegistered`) VALUES
-(8, 'Computing and Information Technology', 'CIT', '2024-04-07'),
-(9, ' Faculty of Social Sciences and Technology', 'FoSST', '2024-04-07'),
-(10, 'Faculty of Science and Technology', 'FoST', '2024-04-07'),
-(11, 'Faculty of Media and Communication', 'FAMECO', '2024-04-07'),
-(12, 'Faculty of Engineering & Technology', 'FoENG', '2024-04-07'),
-(13, 'MASS COM', 'MSC', '2024-04-09'),
-(14, 'ENGINEERING', 'FENG', '2024-05-02');
+(1, 'Artificial Intelligence', 'AI', '2024-10-16'),
+(2, 'Full Stack', 'FS', '2024-10-16'),
+(3, 'Data Science', 'DS', '2024-10-16'),
+(7, 'Cloud computing', 'CC', '2024-10-16'),
+(5, 'Machine learning', 'ML', '2024-10-16'),
+(6, 'Data Science', 'DS', '2024-10-16');
 
 -- --------------------------------------------------------
 
@@ -145,10 +155,12 @@ CREATE TABLE `tbllecture` (
 --
 
 INSERT INTO `tbllecture` (`Id`, `firstName`, `lastName`, `emailAddress`, `password`, `phoneNo`, `facultyCode`, `dateCreated`) VALUES
-(22, 'frank', 'Tech', 'tech@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', '07123456789', 'CIT', '2024-05-02'),
-(16, 'John', 'Mark', 'john@gmail.com', '1f431fac09e825fc2e5d03fa5ed0b42d', '07123456789', 'FoSST', '2024-04-07'),
-(15, 'mark', 'lila', 'mark@gmail.com', '15c1469d0495004588968a3bde955397', '07123456789', 'CIT', '2024-04-07'),
-(14, 'Francis', 'Njenga', 'francis@gmail.com', '72fff2824f94462c2eaaa739b6e7d496', '07123456789', 'CIT', '2024-04-07');
+(21, 'Ravi', 'S', 'ravi@gmail.com', '15c1469d0495004588968a3bde955397', '9876543345', 'AI', '2024-10-16'),
+(22, 'Veeran', 'k', 'veeran@gmail.com', '15c1469d0495004588968a3bde955397', '9876543567', 'FS', '2024-10-16'),
+(25, 'Gowtham', 'Raj', 'gowtham@gmail.com', '15c1469d0495004588968a3bde955397', '9876544567', 'DS', '2024-10-16'),
+(26, 'Mani', 'H', 'mani@gmail.com', '15c1469d0495004588968a3bde955397', '9876543567', 'CC', '2024-10-16'),
+(23, 'Raja', 'R', 'raja@gmail.com', '15c1469d0495004588968a3bde955397', '9876543454', 'ML', '2024-10-16'),
+(24, 'Syed', 'M', 'syed@gmail.com', '15c1469d0495004588968a3bde955397', '8765432897', 'DL', '2024-10-16');
 
 -- --------------------------------------------------------
 
@@ -174,11 +186,10 @@ CREATE TABLE `tblstudents` (
 --
 
 INSERT INTO `tblstudents` (`Id`, `firstName`, `lastName`, `registrationNumber`, `email`, `faculty`, `courseCode`, `studentImage1`, `studentImage2`, `dateRegistered`) VALUES
-(3, 'John', 'Macharia', 'CIT-222-003-2020', 'john@gmail.com', 'CIT', 'BCT', 'CIT-222-003-2020_image1.png', 'CIT-222-003-2020_image2.png', '2024-04-09'),
-(2, 'Mercy', 'Wambui', 'CIT-222-002-2020', 'mercy@gmail.com', 'CIT', 'BCT', 'CIT-222-002-2020_image1.png', 'CIT-222-002-2020_image2.png', '2024-04-09'),
-(1, 'Kevin', 'Ochieng', 'CIT-222-001-2020', 'kevin@gmail.com', 'CIT', 'BCT', 'CIT-222-001-2020_image1.png', 'CIT-222-001-2020_image2.png', '2024-04-09'),
-(123, 'student1', 'testing', 'CIT-222-005-2020', 'student1@gmail.com', 'CIT', 'BCT', 'CIT-222-005-2020_image1.png', 'CIT-222-005-2020_image2.png', '2024-05-02'),
-(4, 'frank', 'Tech', 'CIT-222-004-2020', 'tech@gmail.com', 'CIT', 'BCT', 'CIT-222-004-2020_image1.png', 'CIT-222-004-2020_image2.png', '2024-04-26');
+(11, 'Gokul', '', '21AI011', 'gokul@gmail.com', 'AI\n', 'AI', 'CIT-222-003-2020_image1.png', 'CIT-222-003-2020_image2.png', '2024-10-16'),
+(12, 'Gowtham', 'Raj', '21AI012', 'gowtham@gmail.com', 'AI', 'AI', 'CIT-222-002-2020_image1.png', 'CIT-222-002-2020_image2.png', '2024-10-16'),
+(14, 'Harish', 'Babu', '21AI014', 'harishbabu@gmail.com', 'AI', 'AI', 'CIT-222-001-2020_image1.png', 'CIT-222-001-2020_image2.png', '2024-10-16'),
+(16, 'Jagadeeshwaran', '', '21AI016', 'jagadeeshwaran@gmail.com', 'AI', 'AI', 'CIT-222-001-2020_image1.png', 'CIT-222-001-2020_image2.png', '2024-10-16');
 
 -- --------------------------------------------------------
 
@@ -199,12 +210,12 @@ CREATE TABLE `tblunit` (
 --
 
 INSERT INTO `tblunit` (`ID`, `name`, `unitCode`, `courseID`, `dateCreated`) VALUES
-(3, 'Project Implementation', 'BCT 2411', '10', '2024-04-07'),
-(4, 'Project Management', 'BCT 2409', '10', '2024-04-07'),
-(5, 'E-Commerce', 'BIT 2315', '10', '2024-04-07'),
-(6, 'Calculus 1', 'SMA 2102', '13', '2024-04-09'),
-(7, 'Computer Architecture', 'BCT 2401', '10', '2024-04-26'),
-(8, 'Computer Introduction', 'CIA 2103', '10', '2024-04-26');
+(31, 'Artificial Intelligence', 'AI', '1', '2024-10-16'),
+(32, 'Data Science', 'DS', '1', '2024-10-16'),
+(33, 'Machine Learning', 'ML', '1', '2024-10-16'),
+(34, 'Cloud Computing', 'CC', '1', '2024-10-16'),
+(35, 'Deep Learning', 'DL', '1', '2024-10-16'),
+(36, 'Full Stack', 'FS', '1', '2024-10-16');
 
 -- --------------------------------------------------------
 
@@ -227,11 +238,11 @@ CREATE TABLE `tblvenue` (
 --
 
 INSERT INTO `tblvenue` (`ID`, `className`, `facultyCode`, `currentStatus`, `capacity`, `classification`, `dateCreated`) VALUES
-(4, 'B 06', 'CIT', 'available', 100, 'class', '2024-04-07'),
-(5, 'B 08', 'CIT', 'available', 80, 'class', '2024-04-07'),
-(6, 'Korea 4', 'CIT', 'available', 80, 'laboratory', '2024-04-07'),
-(7, 'Lecture Hall LH01', 'FAMECO', 'available', 200, 'lectureHall', '2024-04-07'),
-(8, 'LH 4', 'MSC', 'available', 100, 'computerLab', '2024-04-09');
+(41, '301', 'AI', 'available', 60, 'class', '2024-10-16'),
+(42, '302', 'DS', 'available', 60, 'class', '2024-10-16'),
+(43, '303', 'ML', 'available', 60, 'class', '2024-10-16'),
+(44, '304', 'DL', 'available', 60, 'class', '2024-10-16'),
+(45, 'AI LAB', 'AI', 'available', 60, 'computerLab', '2024-10-16');
 
 --
 -- Indexes for dumped tables
@@ -299,7 +310,7 @@ ALTER TABLE `tbladmin`
 -- AUTO_INCREMENT for table `tblattendance`
 --
 ALTER TABLE `tblattendance`
-  MODIFY `attendanceID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=483;
+  MODIFY `attendanceID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=981;
 
 --
 -- AUTO_INCREMENT for table `tblcourse`
@@ -311,34 +322,33 @@ ALTER TABLE `tblcourse`
 -- AUTO_INCREMENT for table `tblfaculty`
 --
 ALTER TABLE `tblfaculty`
-  MODIFY `Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbllecture`
 --
 ALTER TABLE `tbllecture`
-  MODIFY `Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
-  MODIFY `Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `tblunit`
 --
 ALTER TABLE `tblunit`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `tblvenue`
 --
 ALTER TABLE `tblvenue`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
