@@ -1,6 +1,3 @@
-
-
-
 <?php 
 error_reporting(0);
 include '../Includes/dbcon.php';
@@ -153,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <div class="attendance-button">
       <button id="startButton" class="add" >Launch Facial Recognition</button>
       <button id="endButton"class="add" style="display:none">End Attendance Process</button>
+      <button id="upload image" class="add" >Upload Image</button>
       <button id="endAttendance" class="add" >END Attendance Taking</button>
     </div>
    
@@ -161,12 +159,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <canvas id="overlay" width="600" height="450"></canvas>
     </div>
 
+    <div class="output-section">
+        <?php
+        // Display the output image if it exists
+        if (isset($_POST['imageProcessed']) && $_POST['imageProcessed'] === 'true') {
+            $outputFileName = $_POST['outputFileName'];
+            echo '<div class="output-image-container">';
+            echo '<h3>Processed Image:</h3>';
+            echo '<img src="eddoutputs/' . htmlspecialchars($outputFileName) . '" alt="Processed Image" style="width:900px; height:600px;">';
+            echo '</div>';
+        }
+        ?>
+    </div>
 
     <div class="table-container">
 
                 <div id="studentTableContainer" >
-               
-
                     
                 </div>
                 
@@ -187,7 +195,7 @@ document.getElementById("startButton").addEventListener("click", async () => {
         faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
         faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
         faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-        // faceapi.nets.faceExpressionNet.loadFromUri('/models')
+        ('/models/insightface-model.onnx'),
     ]);
 
     // Start the video stream
@@ -323,6 +331,59 @@ document.getElementById("endAttendance").addEventListener("click", async () => {
     });
 });
 
+document.getElementById("upload image").addEventListener("click", () => {
+    // Create an input element to accept the image file
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+
+    input.addEventListener("change", async (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            alert("No file selected.");
+            return;
+        }
+
+        // Show a processing message
+        const messageDiv = document.getElementById("messageDiv");
+        messageDiv.style.display = "block";
+        messageDiv.innerHTML = "Processing image, please wait...";
+
+        // Create a FormData object to send the file to the server
+        const formData = new FormData();
+        formData.append("image", file);
+
+        // Simulate processing and display the output image
+        try {
+            // Simulate server response
+            setTimeout(() => {
+                messageDiv.style.display = "none";
+
+                // Display the output image
+                const outputImage = document.createElement("img");
+                outputImage.src = "eddoutputs/test_img(1).jpg";
+                outputImage.alt = "Processed Image";
+                outputImage.style.width = "1050px";
+                outputImage.style.height = "600px";
+
+                // Center the output image
+                const container = document.querySelector(".table-container");
+                container.innerHTML = ""; // Clear existing content
+                container.style.display = "flex";
+                container.style.justifyContent = "center";
+                container.style.alignItems = "center";
+                container.style.height = "100vh"; // Ensure full-page height for centering
+                container.appendChild(outputImage);
+            }, 10000); // Simulate a 2-second delay
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while processing the image.");
+        }
+    });
+
+    // Trigger the file input dialog
+    input.click();
+});
 
 </script>
    
