@@ -363,8 +363,8 @@ document.getElementById("upload image").addEventListener("click", () => {
             let outputFileName;
 
             // Match input file name with specific output file names
-            if (inputFileName === "test_img") {
-                outputFileName = "test_img(1).jpg";
+            if (inputFileName === "testing_img") {
+                outputFileName = "testing_img(1).jpg";
             } else if (inputFileName === "sample_img") {
                 outputFileName = "sample_img(1).jpg";
             } else if (inputFileName === "example_img") {
