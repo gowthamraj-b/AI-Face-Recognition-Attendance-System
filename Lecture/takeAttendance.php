@@ -347,7 +347,7 @@ document.getElementById("upload image").addEventListener("click", () => {
         // Show a processing message with a timer
         const messageDiv = document.getElementById("messageDiv");
         messageDiv.style.display = "block";
-        let timer = 5; // 30 seconds countdown
+        let timer = 5; // 5 seconds countdown
         const interval = setInterval(() => {
             messageDiv.innerHTML = `Image is processing... ${timer}s remaining`;
             timer--;
@@ -376,7 +376,7 @@ document.getElementById("upload image").addEventListener("click", () => {
                 setTimeout(() => {
                     alert("Unable to Process the image.");
                     messageDiv.style.display = "none";
-                }, 5000); // 5 seconds delay
+                }, 10000); // 10 seconds delay
                 return;
             }
 
@@ -396,7 +396,7 @@ document.getElementById("upload image").addEventListener("click", () => {
                 container.style.alignItems = "center";
                 container.style.height = "100vh"; // Ensure full-page height for centering
                 container.appendChild(outputImage);
-            }, 10000); // 30 seconds delay
+            }, 15000); // 15 seconds delay
         } catch (error) {
             console.error("Error:", error);
             alert("An error occurred while processing the image.");
